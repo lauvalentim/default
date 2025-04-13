@@ -2,263 +2,309 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Laura Valentim</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: 'Inter', sans-serif;
-      background-color: #f5f5fa;
-      color: #333;
-      display: flex;
-      justify-content: center;
-      padding: 4rem 1rem;
-      transition: background 0.4s, color 0.4s;
+    :root {
+      --card-dark: rgba(30, 30, 30, 0.85);
+      --card-light: rgba(255, 255, 255, 0.6);
+      --text-dark: #fefefe;
+      --text-light: #1c1c1e;
+      --accent: #fff;
+      --highlight: #ff4b2b;
     }
 
-    body.dark {
-      background-color: #121212;
-      color: #eee;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--text-dark);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+      background: black;
+    }
+
+    #bg-video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      min-width: 100%;
+      min-height: 100%;
+      z-index: -2;
+      object-fit: cover;
+      filter: brightness(0.6);
+    }
+
+    body.light {
+      color: var(--text-light);
+    }
+
+    body.light::before {
+      background: white;
+    }
+
+    body.light #bg-video {
+      filter: brightness(0.9);
     }
 
     .container {
-      display: flex;
-      gap: 2rem;
-      max-width: 1000px;
+      max-width: 900px;
       width: 100%;
-      position: relative;
+      background-color: var(--card-dark);
+      display: flex;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.3);
     }
 
-    .profile {
-      background: white;
+    body.light .container {
+      background-color: var(--card-light);
+    }
+
+    .left, .right {
       padding: 2rem;
-      border-radius: 20px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .left {
+      width: 45%;
+      align-items: center;
+      border-right: 1px dashed #666;
       text-align: center;
-      transition: transform 0.3s ease;
+      font-family: 'Courier New', Courier, monospace;
     }
 
-    body.dark .profile {
-      background: #1e1e1e;
-    }
-
-    .profile:hover {
-      transform: translateY(-5px);
-    }
-
-    .profile img {
-      width: 120px;
-      height: 120px;
+    .left .avatar {
+      width: 90px;
+      height: 90px;
+      background: var(--highlight);
       border-radius: 50%;
-      object-fit: cover;
       margin-bottom: 1rem;
     }
 
-    .profile h1 {
-      font-size: 1.5rem;
-      font-weight: 600;
+    .left h2 {
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+      text-transform: lowercase;
     }
 
-    .tags {
-      margin-top: 1rem;
+    .left .info {
+      font-size: 0.7rem;
+      color: #aaa;
+      margin-bottom: 0.5rem;
+    }
+
+    .left .social {
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+    }
+
+    .left .social a {
+      color: inherit;
+      margin: 0 0.3rem;
+    }
+
+    .qr {
+      margin-top: 2rem;
       display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 0.5rem;
+      flex-direction: column;
+      align-items: center;
     }
 
-    .tags span {
-      background: #e0e0e0;
-      color: #333;
-      padding: 4px 12px;
-      border-radius: 999px;
-      font-size: 0.8rem;
+    .qr img {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 0.5rem;
     }
 
-    body.dark .tags span {
-      background: #333;
-      color: #fff;
+    .qr p {
+      font-size: 0.7rem;
+      color: #aaa;
+      margin: 0.2rem 0;
     }
 
-    .social {
-      margin-top: 1rem;
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-    }
-
-    .social a {
-      color: #555;
-      font-size: 1.2rem;
-      transition: 0.2s ease;
-    }
-
-    .social a:hover {
-      color: #000;
-    }
-
-    body.dark .social a:hover {
-      color: #fff;
-    }
-
-    .content {
-      background: white;
-      padding: 2rem;
-      border-radius: 20px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-      flex: 2;
-    }
-
-    body.dark .content {
-      background: #1e1e1e;
+    .right {
+      width: 55%;
     }
 
     .tabs {
       display: flex;
-      gap: 1rem;
+      gap: 0.5rem;
       margin-bottom: 1rem;
     }
 
     .tabs button {
-      background: none;
+      flex: 1;
+      padding: 0.4rem 0.8rem;
       border: none;
-      padding: 0.5rem 1rem;
-      cursor: pointer;
-      font-weight: 600;
-      border-radius: 10px;
-      transition: 0.2s;
-    }
-
-    .tabs button.active {
-      background: #f3b900;
+      border-radius: 999px;
+      background: #fff;
       color: #000;
-    }
-
-    body.dark .tabs button.active {
-      background: #f3b900;
-      color: #121212;
-    }
-
-    .tab-content {
-      display: none;
-      font-size: 1rem;
-      line-height: 1.6;
-    }
-
-    .tab-content.active {
-      display: block;
-    }
-
-    #theme-toggle {
-      position: absolute;
-      top: -3rem;
-      right: 0;
-      background: #f3b900;
-      border: none;
-      padding: 0.5rem 1rem;
-      border-radius: 10px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    footer {
-      position: absolute;
-      bottom: 16px;
       font-size: 0.8rem;
-      text-align: center;
-      color: #999;
-      width: 100%;
-    }
-
-    /* Loader retrô */
-    #loader {
-      position: fixed;
-      inset: 0;
-      background: #000;
-      color: #0f0;
-      font-family: 'VT323', monospace;
-      font-size: 1.5rem;
+      font-weight: 600;
+      cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      z-index: 9999;
+      gap: 0.4rem;
+    }
+
+    .tabs button.active {
+      background: var(--highlight);
+      color: #fff;
+    }
+
+    .tab-content {
+      font-size: 0.8rem;
+      line-height: 1.5;
+    }
+
+    .theme-toggle {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 28px;
+    }
+
+    .switch input { display: none; }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0;
+      right: 0; bottom: 0;
+      background-color: #ccc;
+      border-radius: 34px;
+      transition: .4s;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 22px;
+      width: 22px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      border-radius: 50%;
+      transition: .4s;
+    }
+
+    input:checked + .slider {
+      background-color: var(--accent);
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(22px);
+    }
+
+    footer {
+      margin-top: 2rem;
+      font-size: 0.75rem;
+      color: #999;
+      text-align: center;
+      width: 100%;
     }
   </style>
 </head>
 <body>
+  <video autoplay muted loop id="bg-video">
+    <source src="video.mp4" type="video/mp4">
+    Seu navegador não suporta vídeo HTML5.
+  </video>
 
-<div id="loader">Carregando portfolio_laura.exe...</div>
+  <div class="theme-toggle">
+    <label class="switch">
+      <input type="checkbox" id="themeSwitcher" checked>
+      <span class="slider"></span>
+    </label>
+  </div>
 
-<div class="container" style="display:none;">
-  <div class="profile">
-    <img src="https://avatars.githubusercontent.com/u/119246254?v=4" alt="Laura Valentim">
-    <h1>Laura Valentim</h1>
-    <div class="tags">
-      <span>Visual Researcher</span>
-      <span>Data Viz</span>
-      <span>Networks</span>
+  <div class="container">
+    <div class="left">
+      <div class="avatar"></div>
+      <h2>lau valentim</h2>
+      <div class="info">visual researcher</div>
+      <div class="info">data viz · networks</div>
+      <div class="social">
+        <a href="https://github.com/LauValentim" target="_blank"><i class="fab fa-github"></i></a>
+        <a href="https://www.behance.net/valentim" target="_blank"><i class="fab fa-behance"></i></a>
+        <a href="http://lattes.cnpq.br/3192664390013074" target="_blank"><i class="fas fa-id-badge"></i></a>
+      </div>
+      <div class="qr">
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=80x80&data=https://www.nyan.cat/index.php?cat=gb" alt="QR Code">
+        <p>visual researcher</p>
+        <p>data viz · networks</p>
+        <p style="margin-top: 0.5rem; font-size: 0.6rem;">ID VISUAL 2049</p>
+      </div>
     </div>
-    <div class="social">
-      <a href="https://github.com/LauValentim" target="_blank"><i class="fab fa-github"></i></a>
-      <a href="https://www.behance.net/valentim" target="_blank"><i class="fab fa-behance"></i></a>
-      <a href="http://lattes.cnpq.br/3192664390013074" target="_blank"><i class="fas fa-id-badge"></i></a>
+    <div class="right">
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="sobre"><i class="fas fa-user"></i> sobre</button>
+        <button class="tab-btn" data-tab="projetos"><i class="fas fa-project-diagram"></i> projetos</button>
+        <button class="tab-btn" data-tab="pubs"><i class="fas fa-book"></i> publicações</button>
+      </div>
+      <div id="sobre" class="tab-content active">
+        <p>Sou uma pesquisadora visual com interesse em visualização de dados, redes sociais e comunicação digital. Este é um espaço inicial para reunir e direcionar quem deseja conhecer meu trabalho.</p>
+      </div>
+      <div id="projetos" class="tab-content">
+        <p>[em breve] Projetos visuais e redes sociais com análise de grafos, comunicação de dados e narrativas visuais.</p>
+      </div>
+      <div id="pubs" class="tab-content">
+        <p>[em breve] Lista de artigos, apresentações e colaborações acadêmicas.</p>
+      </div>
     </div>
   </div>
 
-  <div class="content">
-    <button id="theme-toggle">🌙</button>
-    <div class="tabs">
-      <button class="tab-btn active" data-tab="sobre">Sobre</button>
-      <button class="tab-btn" data-tab="projetos">Projetos</button>
-      <button class="tab-btn" data-tab="pubs">Publicações</button>
-    </div>
+  <footer>// feito com HTML + café + glassmorphism ☕</footer>
 
-    <div class="tab-content active" id="sobre">
-      <p>Sou uma pesquisadora visual com interesse em visualização de dados, redes sociais e comunicação digital. Este é um espaço inicial para reunir e direcionar quem deseja conhecer meu trabalho.</p>
-    </div>
+  <script>
+    const buttons = document.querySelectorAll('.tab-btn');
+    const contents = document.querySelectorAll('.tab-content');
 
-    <div class="tab-content" id="projetos">
-      <p>[em breve] Projetos visuais e redes sociais com análise de grafos, comunicação de dados e narrativas visuais.</p>
-    </div>
-
-    <div class="tab-content" id="pubs">
-      <p>[em breve] Lista de artigos, apresentações e colaborações acadêmicas.</p>
-    </div>
-  </div>
-</div>
-
-<footer>// feito com HTML + cafeína ☕</footer>
-
-<script>
-  // Loader fake
-  setTimeout(() => {
-    document.getElementById('loader').style.display = 'none';
-    document.querySelector('.container').style.display = 'flex';
-  }, 1800);
-
-  // Tabs
-  const tabs = document.querySelectorAll('.tab-btn');
-  const contents = document.querySelectorAll('.tab-content');
-  tabs.forEach(btn => {
-    btn.addEventListener('click', () => {
-      tabs.forEach(t => t.classList.remove('active'));
-      contents.forEach(c => c.classList.remove('active'));
-      btn.classList.add('active');
-      document.getElementById(btn.dataset.tab).classList.add('active');
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        buttons.forEach(b => b.classList.remove('active'));
+        contents.forEach(c => c.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(btn.dataset.tab).classList.add('active');
+      });
     });
-  });
 
-  // Tema claro/escuro
-  const toggle = document.getElementById('theme-toggle');
-  toggle.addEventListener('click', () => {
-    document.body.classList.toggle('dark');
-    toggle.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
-  });
-</script>
-
+    const themeSwitcher = document.getElementById('themeSwitcher');
+    themeSwitcher.addEventListener('change', () => {
+      document.body.classList.toggle('light');
+    });
+  </script>
 </body>
 </html>
