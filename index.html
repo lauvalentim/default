@@ -13,7 +13,9 @@
       --text-dark: #fefefe;
       --text-light: #1c1c1e;
       --accent: #fff;
-      --highlight: #ff4b2b;
+      --highlight: #b22107;
+      --info-color: #aaa;
+      --btn-bg: #1a1a1a;
     }
 
     * {
@@ -33,40 +35,24 @@
       padding: 2rem;
       position: relative;
       overflow: hidden;
+      background: linear-gradient(-45deg, #444, #555, #333, #666);
+      background-size: 400% 400%;
+      animation: moveBackground 15s ease infinite;
     }
 
-    body::before {
-      content: "";
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: -1;
-      background: black;
-    }
-
-    #bg-video {
-      position: fixed;
-      top: 0;
-      left: 0;
-      min-width: 100%;
-      min-height: 100%;
-      z-index: -2;
-      object-fit: cover;
-      filter: brightness(0.6);
+    @keyframes moveBackground {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
 
     body.light {
       color: var(--text-light);
-    }
-
-    body.light::before {
-      background: white;
-    }
-
-    body.light #bg-video {
-      filter: brightness(0.9);
+      background: radial-gradient(circle at center, #a2007a, #690482, #a04a05, #045486);
+      background-size: 400% 400%;
+      animation: moveBackground 15s ease infinite;
+      --info-color: #222;
+      --btn-bg: #ffffff;
     }
 
     .container {
@@ -93,7 +79,7 @@
     .left {
       width: 45%;
       align-items: center;
-      border-right: 1px dashed #666;
+      border-right: 1px dashed #a09e9e;
       text-align: center;
       font-family: 'Courier New', Courier, monospace;
     }
@@ -114,7 +100,7 @@
 
     .left .info {
       font-size: 0.7rem;
-      color: #aaa;
+      color: var(--info-color);
       margin-bottom: 0.5rem;
     }
 
@@ -162,7 +148,7 @@
       padding: 0.4rem 0.8rem;
       border: none;
       border-radius: 999px;
-      background: #fff;
+      background: var(--btn-bg);
       color: #000;
       font-size: 0.8rem;
       font-weight: 600;
@@ -179,8 +165,30 @@
     }
 
     .tab-content {
+      display: none;
       font-size: 0.8rem;
       line-height: 1.5;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .projetos-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .projeto-card {
+      background-color: rgba(255, 255, 255, 0.05);
+      padding: 1rem;
+      border-radius: 12px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.2);
+    }
+
+    body.light .projeto-card {
+      background-color: rgba(0, 0, 0, 0.05);
     }
 
     .theme-toggle {
@@ -203,7 +211,7 @@
       cursor: pointer;
       top: 0; left: 0;
       right: 0; bottom: 0;
-      background-color: #ccc;
+      background-color: #898989;
       border-radius: 34px;
       transition: .4s;
     }
@@ -215,7 +223,7 @@
       width: 22px;
       left: 3px;
       bottom: 3px;
-      background-color: white;
+      background-color:#898989;
       border-radius: 50%;
       transition: .4s;
     }
@@ -228,6 +236,66 @@
       transform: translateX(22px);
     }
 
+    .pub-list li {
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding-bottom: 1rem;
+    }
+
+    .pub-list li:last-child {
+      border-bottom: none;
+    }
+
+    .pub-list a {
+      text-decoration: none;
+      color: #e0e0e0;
+      display: block;
+      transition: color 0.3s;
+    }
+
+    .pub-list a:hover {
+      color: var(--highlight);
+    }
+
+    .pub-list small {
+      color: #999;
+      display: block;
+      margin-top: 0.2rem;
+      font-size: 0.7rem;
+    }
+  
+    body.light .pub-list a {
+      color: #222;  
+    }
+
+    body.light .pub-list small {
+      color: #666;  
+    }
+
+    body.light .pub-list li {
+      border-color: rgba(0, 0, 0, 0.1);
+    }
+
+    body:not(.light) .tabs button {
+      background-color: #a1a0a2;
+      color: white;
+    }
+
+    body:not(.light) .tabs button.active {
+      background-color: #535353;
+      color: white;
+    }
+
+    body.light .tabs button {
+      background-color: #a1a0a2;
+      color: white;
+    }
+
+    body.light .tabs button.active {
+      background-color: #535353;
+      color: white;
+    }
+
     footer {
       margin-top: 2rem;
       font-size: 0.75rem;
@@ -238,11 +306,6 @@
   </style>
 </head>
 <body>
-  <video autoplay muted loop id="bg-video">
-    <source src="./assets/video_bg_2.mp4" type="video/mp4">
-    Seu navegador não suporta vídeo HTML5.
-  </video>
-
   <div class="theme-toggle">
     <label class="switch">
       <input type="checkbox" id="themeSwitcher" checked>
@@ -254,8 +317,8 @@
     <div class="left">
       <div class="avatar"></div>
       <h2>lau valentim</h2>
-      <div class="info">visual researcher</div>
-      <div class="info">data viz · networks</div>
+      <div class="info">pesquisadora</div>
+      <div class="info">data viz · redes sociais</div>
       <div class="social">
         <a href="https://github.com/LauValentim" target="_blank"><i class="fab fa-github"></i></a>
         <a href="https://www.behance.net/valentim" target="_blank"><i class="fab fa-behance"></i></a>
@@ -271,22 +334,88 @@
     <div class="right">
       <div class="tabs">
         <button class="tab-btn active" data-tab="sobre"><i class="fas fa-user"></i> sobre</button>
-        <button class="tab-btn" data-tab="projetos"><i class="fas fa-project-diagram"></i> projetos</button>
+        <button class="tab-btn" data-tab="habilidades"><i class="fas fa-bolt"></i> habilidades</button>
         <button class="tab-btn" data-tab="pubs"><i class="fas fa-book"></i> publicações</button>
       </div>
       <div id="sobre" class="tab-content active">
-        <p>Sou uma pesquisadora visual com interesse em visualização de dados, redes sociais e comunicação digital. Este é um espaço inicial para reunir e direcionar quem deseja conhecer meu trabalho.</p>
+        <p>Sou uma pesquisadora de ciências humanas e sociais aplicadas com interesse em visualização de dados, redes sociais e comunicação digital. Este é um espaço inicial para reunir e direcionar quem deseja conhecer meu trabalho.</p>
       </div>
-      <div id="projetos" class="tab-content">
-        <p>[em breve] Projetos visuais e redes sociais com análise de grafos, comunicação de dados e narrativas visuais.</p>
+      <div id="habilidades" class="tab-content">
+        <div class="projetos-content">
+          <div class="projeto-card">
+            <h4>🔴Visualização de Redes</h4>
+            <p>Exploração de estruturas e interações em redes sociais com análise gráfica.</p>
+          </div>
+          <div class="projeto-card">
+            <h4>🔴Comunicação de Crise</h4>
+            <p>Análise de narrativas digitais e fluxos de desinformação durante crises.</p>
+          </div>
+          <div class="projeto-card">
+            <h4>🔴Semiótica e Discurso</h4>
+            <p>Interpretação de representações e sentidos em peças visuais e textuais.</p>
+          </div>
+          <div class="projeto-card">
+            <h4>🔴Curadoria de Dados</h4>
+            <p>Organização, filtragem e estruturação de dados para visualização.</p>
+          </div>
+          <div class="projeto-card">
+            <h4>🔴Storytelling Visual</h4>
+            <p>Criação de narrativas visuais com base em insights de dados.</p>
+          </div>
+          <div class="projeto-card">
+            <h4>🔴Design de Interfaces</h4>
+            <p>Desenvolvimento de layouts interativos para grafos e dashboards.</p>
+          </div>
+          <div class="projeto-card">
+            <h4>🔴Ferramentas e Códigos</h4>
+            <p>D3.js, Sigma.js, Gephi, HTML, CSS, JS, Python.</p>
+          </div>
+        </div>
       </div>
-      <div id="pubs" class="tab-content">
-        <p>[em breve] Lista de artigos, apresentações e colaborações acadêmicas.</p>
-      </div>
+        
+<div id="pubs" class="tab-content">
+  <ul class="pub-list" style="list-style: none; padding-left: 0; font-size: 0.85rem;">
+    <li>
+      <a href="https://sistemas.intercom.org.br/pdf/submissao/nacional/17/07202024193312669c3b28570e2.pdf" target="_blank">
+        <strong>Antivaxx no Facebook</strong>
+        <small>um estudo sobre a desinformação vacinal no Brasil pós pandêmico</small>
+        <small>Intercom Nacional, 2024</small>
+      </a>
+    </li>
+    <li>
+      <a href="https://sistemas.intercom.org.br/pdf/submissao/nacional/17/07152024170956669582142803b.pdf" target="_blank">
+        <strong>Nós nas redes</strong>
+        <small>um olhar sobre as inundações no Rio Grande do Sul</small>
+        <small>Intercom Nacional, 2024</small>
+      </a>
+    </li>
+    <li>
+      <a href="https://periodicos.ufes.br/poscomufes/article/view/46742" target="_blank">
+        <strong>ENTRE NÓS</strong>
+        <small>influência e atenção durante as inundações no Rio Grande do Sul</small>
+        <small>Revista PÓS-COM, UFES, 2024</small>
+      </a>
+    </li>
+    <li>
+      <a href="https://sistemas.intercom.org.br/pdf/submissao/regional/13/1957/041820241625186621739e9f190.pdf" target="_blank">
+        <strong>Pequenas Misses</strong>
+        <small>filhas fantoche e mães figurantes</small>
+        <small>Intercom Sudeste, 2024</small>
+      </a>
+    </li>
+    <li>
+      <a href="https://sistemas.intercom.org.br/pdf/submissao/regional/13/1893/04282024110133662e56bdee4f6.pdf" target="_blank">
+        <strong>Reverberações nas redes sociais</strong>
+        <small>das estratégias discursivas do Governo Federal nos tempos da pandemia de covid-19</small>
+        <small>Intercom Sudeste, 2024</small>
+      </a>
+    </li>
+  </ul>
+</div>
     </div>
   </div>
 
-  <footer>// feito com HTML + café + glassmorphism ☕</footer>
+  <footer>// get in touch ;) //</footer>
 
   <script>
     const buttons = document.querySelectorAll('.tab-btn');
